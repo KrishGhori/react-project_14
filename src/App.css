@@ -1,73 +1,105 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ================= ROOT ================= */
+* {
+  box-sizing: border-box;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-/* App.css */
 
 .app {
   min-height: 100vh;
   padding: 2rem;
   transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* DARK MODE */
+/* ================= THEMES ================= */
 .app.dark {
-  background-color: #121212;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #ffffff;
 }
 
-/* LIGHT MODE */
 .app.light {
-  background-color: #ffffff;
-  color: #121212;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  color: #1f2933;
 }
 
-/* buttons adapt */
-.app.light button {
-  background-color: #f0f0f0;
-  color: #121212;
+/* ================= HEADINGS ================= */
+h1 {
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+/* ================= BUTTONS ================= */
+button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .app.dark button {
-  background-color: #1a1a1a;
+  background-color: #1f2937;
   color: #ffffff;
+}
+
+.app.light button {
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 1px solid #cbd5e1;
+}
+
+/* ================= COUNTER DISPLAY ================= */
+h2 {
+  font-size: 1.6rem;
+  margin-top: 1rem;
+}
+
+/* ================= CARD ================= */
+.card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  margin-top: 1rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.app.dark .card {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.app.light .card {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* ================= STATS TEXT ================= */
+p {
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  opacity: 0.9;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
 }
