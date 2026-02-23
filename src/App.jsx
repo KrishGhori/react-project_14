@@ -1,4 +1,5 @@
-import { useState, useCallback, useMemo, createContext, useContext, lazy, Suspense } from 'react'
+import { useState, useCallback, useMemo, createContext, useContext } from 'react'
+import Stats from './Stats.jsx'
 import './App.css'
 
 /* -------------------- CONTEXT -------------------- */
@@ -18,9 +19,6 @@ function useCounter(initial = 0) {
 
   return { count, increment, decrement, reset }
 }
-
-/* -------------------- LAZY COMPONENT -------------------- */
-const Stats = lazy(() => import('./State.jsx'))
 
 /* -------------------- MEMOIZED COMPONENT -------------------- */
 const Display = ({ value }) => {
@@ -57,9 +55,7 @@ function App() {
           <button onClick={counter.reset}>Reset</button>
         </div>
 
-        <Suspense fallback={<p>Loading stats...</p>}>
-          <Stats value={counter.count} />
-        </Suspense>
+        <Stats value={counter.count} />
       </div>
     </ThemeContext.Provider>
   )
