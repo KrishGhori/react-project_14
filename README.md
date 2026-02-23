@@ -1,20 +1,67 @@
-<<<<<<< HEAD
-# React + Vite
+#  Advanced React Counter App (Single-File Architecture)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An advanced React mini-project demonstrating **modern React concepts** such as Context API, custom hooks, memoization, lazy loading, and theme management — all implemented **cleanly inside the App layer** for simplicity and clarity.
 
-Currently, two official plugins are available:
+This project is ideal for:
+-  Resume projects  
+-  College practicals  
+-  Frontend interviews  
+-  GitHub portfolio  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+##  Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-  **Dark / Light Mode** using Context API
+-  **Reusable Custom Hook** (`useCounter`)
+-  **Performance Optimization** with `useCallback` & `useMemo`
+-  **Lazy Loading** using `React.lazy` & `Suspense`
+-  **Single-File Architecture** (no unnecessary files)
+-  Clean, responsive UI
+-  Beginner-friendly yet interview-ready
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# react-project_14
->>>>>>> 5693dde971377f0d166daf6d1340f5e8061b8220
+##  Concepts Demonstrated
+
+| Concept | Usage |
+|------|------|
+| Context API | Global theme state |
+| Custom Hooks | Reusable counter logic |
+| useCallback | Prevents unnecessary re-renders |
+| useMemo | Optimizes derived state |
+| React.lazy | Code splitting |
+| Suspense | Fallback UI |
+| Conditional Styling | Theme switching |
+
+---
+
+##  Project Structure
+
+```text
+src/
+│── App.jsx        # Main application logic
+│── App.css        # Styling (dark/light)
+│── main.jsx       # React DOM entry point
+│── index.css      # Global styles
+```
+# Install dependencies
+```
+npm install
+```
+
+# Start development server
+```
+npm run dev
+```
+---
+## Future Enhancements (Optional)
+
+Persist theme using localStorage
+Add keyboard shortcuts
+Convert to TypeScript
+Add unit tests with Jest
+
+Author
+---
+Krish Ghori
