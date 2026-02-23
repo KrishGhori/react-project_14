@@ -1,68 +1,137 @@
-import { useState, useCallback, useMemo, createContext, useContext, lazy, Suspense } from 'react'
+import {
+  useState,
+  useCallback,
+  useMemo,
+  createContext,
+  useContext,
+  lazy,
+  Suspense
+} from 'react'
 import './App.css'
 
-/* -------------------- CONTEXT -------------------- */
-const ThemeContext = createContext()
+/* ==================== THEME CONTEXT ==================== */
+const ThemeContext = createContext(null)
 
-function useTheme() {
-  return useContext(ThemeContext)
-}
+const useTheme = () => useContext(ThemeContext)
 
-/* -------------------- CUSTOM HOOK -------------------- */
-function useCounter(initial = 0) {
+/* ==================== SETTINGS CONTEXT ==================== */
+const SettingsContext = createContext(null)
+
+const useSettings = () => useContext(SettingsContext)
+
+/* ==================== COUNTER CONTEXT ==================== */
+const CounterContext = createContext(null)
+
+const useCounterContext = () => useContext(CounterContext)
+
+/* ==================== CUSTOM COUNTER HOOK ==================== */
+function useCounter(initial = 0, step = 1) {
   const [count, setCount] = useState(initial)
 
-  const increment = useCallback(() => setCount(c => c + 1), [])
-  const decrement = useCallback(() => setCount(c => c - 1), [])
-  const reset = useCallback(() => setCount(initial), [initial])
+  const increment = useCallback(() => {
+    setCount(c => c + step)
+  }, [step])
+
+  const decrement = useCallback(() => {
+    setCount(c => c - step)
+  }, [step])
+
+  const reset = useCallback(() => {
+    setCount(initial)
+  }, [initial])
 
   return { count, increment, decrement, reset }
 }
 
-/* -------------------- LAZY COMPONENT -------------------- */
-const Stats = lazy(() => import('./State.jsx'))
+/* ==================== LAZY COMPONENT ==================== */
+const Stats = lazy(() =>
+  Promise.resolve({
+    default: ({ value }) => (
+      <div className="stats">
+        <h3>Statistics</h3>
+        <p>Value: {value}</p>
+        <p>Status: {value >= 0 ? 'Positive' : 'Negative'}</p>
+      </div>
+    )
+  })
+)
 
-/* -------------------- MEMOIZED COMPONENT -------------------- */
-const Display = ({ value }) => {
-  return <h2>Count: {value}</h2>
+/* ==================== UI COMPONENTS ==================== */
+const Display = () => {
+  const { count } = useCounterContext()
+  return <h2>Count: {count}</h2>
 }
 
-/* -------------------- MAIN APP -------------------- */
-function App() {
-  const [dark, setDark] = useState(true)
-  const counter = useCounter(0)
+const Controls = () => {
+  const { increment, decrement, reset } = useCounterContext()
+  const { step, setStep } = useSettings()
 
-  const theme = useMemo(
+  return (
+    <>
+      <div className="card">
+        <button onClick={increment}>+</button>
+        <button onClick={decrement}>-</button>
+        <button onClick={reset}>Reset</button>
+      </div>
+
+      <div className="step-control">
+        <label>Step:</label>
+        <input
+          type="number"
+          value={step}
+          min="1"
+          onChange={e => setStep(Number(e.target.value))}
+        />
+      </div>
+    </>
+  )
+}
+
+/* ==================== MAIN CONTENT ==================== */
+const AppContent = () => {
+  const { mode, toggleTheme } = useTheme()
+  const { count } = useCounterContext()
+
+  return (
+    <div className={`app ${mode}`}>
+      <h1>Advanced React Single-File App</h1>
+
+      <button onClick={toggleTheme}>
+        Switch to {mode === 'dark' ? 'Light' : 'Dark'} Mode
+      </button>
+
+      <Display />
+      <Controls />
+
+      <Suspense fallback={<p>Loading stats...</p>}>
+        <Stats value={count} />
+      </Suspense>
+    </div>
+  )
+}
+
+/* ==================== ROOT APP ==================== */
+export default function App() {
+  const [dark, setDark] = useState(true)
+  const [step, setStep] = useState(1)
+
+  const themeValue = useMemo(
     () => ({
       mode: dark ? 'dark' : 'light',
-      toggle: () => setDark(d => !d)
+      toggleTheme: () => setDark(d => !d)
     }),
     [dark]
   )
 
+  const counterValue = useCounter(0, step)
+
   return (
-    <ThemeContext.Provider value={theme}>
-      <div className={`app ${dark ? 'dark' : 'light'}`}>
-        <h1>Advanced React App</h1>
-
-        <button onClick={theme.toggle}>
-          Switch to {dark ? 'Light' : 'Dark'} Mode
-        </button>
-
-        <Display value={counter.count} />
-
-        <div className="card">
-          <button onClick={counter.increment}>+</button>
-          <button onClick={counter.decrement}>-</button>
-          <button onClick={counter.reset}>Reset</button>
-        </div>
-
-        <Suspense fallback={<p>Loading stats...</p>}>
-          <Stats value={counter.count} />
-        </Suspense>
-      </div>
+    <ThemeContext.Provider value={themeValue}>
+      <SettingsContext.Provider value={{ step, setStep }}>
+        <CounterContext.Provider value={counterValue}>
+          <AppContent />
+        </CounterContext.Provider>
+      </SettingsContext.Provider>
     </ThemeContext.Provider>
   )
 }
-
-export default App
